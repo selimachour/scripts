@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ $# -eq 0 ]
+  then
+  echo "Usage: fixperms path"
+  exit
+fi
+
+echo "Fixing Permissions..."
+sudo find $1 -exec chown www-data: {} \;
+sudo find $1 -perm /u+w -exec chmod g+w {} \;
+sudo find $1 -type d -exec chmod g+x {} \;
+sudo find $1 -type d -exec chmod g+w {} \;
+
+
+
