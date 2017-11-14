@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<style>
+* { margin: 0 }
+canvas { display: block; }
+input { position: absolute; z-index: 999; top: 10px; left: 10px; width: 50px; text-align: center; } 
+#formula {  position: absolute; left: 100px; top: 10px; font-family: cursive; }
+</style>
+<script>
+
+var w;
+var h;
+var zoom = 40;
+
+function showFormula(n) {
+    var f = ['sin(x)'];
+    for (var i=2; i<=n; i++)
+      f.push('sin(' + i + 'x)/' + i);
+
+    if (n>5)
+      f = [f[0], f[1], '...', f[n-2], f[n-1]];
+
+    document.getElementById('formula').innerText = f.join(' + ');
+}
+
+
+function plot(n) {
+  showFormula(n);
+  w = document.documentElement.clientWidth;
+  h = document.documentElement.clientHeight;
+  canvas  = document.getElementsByTagName('canvas')[0];
+  canvas.width = w;
+  canvas.height = h;
+  context = canvas.getContext('2d');
+  context.fillStyle = 'rgb(200,200,200)';
+  context.fillRect(0,0,w,h);  
+  context.strokeStyle = 'rgb(0,0,0)';
+  context.beginPath();
+  axis();
+  from = 0;
+  to = 20;
+  moveTo(from, f(from, n));
+  
+  for(x=from; x<to; x+=0.025) {
+    lineTo(x, f(x, n));
+  }
+  context.stroke();
+  context.closePath();
+}
+
+function moveTo(x, y) {
+  context.moveTo(w/4 + x*zoom, h/2 - y*zoom);
+}
+function lineTo(x, y) {
+  context.lineTo(w/4 + x*zoom, h/2 - y*zoom);
+}
+
+function axis() {
+  context.moveTo(w/4, 0);
+  context.lineTo(w/4, h);
+  
+  context.moveTo(0, h/2);
+  context.lineTo(w, h/2);
+  
+  a = 5;
+  context.moveTo(w/4+zoom-a, h/2-a);
+  context.lineTo(w/4+zoom,   h/2);
+  context.lineTo(w/4+zoom-a, h/2+a);
+
+  context.moveTo(w/4-a, h/2-zoom+a);
+  context.lineTo(w/4,   h/2-zoom);
+  context.lineTo(w/4+a, h/2-zoom+a);
+}
+
+
+function f(x, n) {
+  y = 0;
+  for(i=1; i <= n; i+=1) {
+    y += Math.sin(i * x) / i;
+  }
+  return y;
+}
+
+</script>
+</head>
+<body onload="plot(1)">
+
+<input type="number" value="1" min="1" max="10000" onchange="plot(this.value)" />
+<span id="formula"></span>
+<canvas></canvas>
+
+
+</body>
+</html>

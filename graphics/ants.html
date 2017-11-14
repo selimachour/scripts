@@ -1,0 +1,80 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<script type="application/javascript">
+    var ctx;
+	var x = 240;
+	var y = 240;
+	var map = {};
+	var d = 0;
+	var T = 64;
+	function dot(c) {
+		ctx.save();
+		ctx.fillStyle = c;
+		ctx.fillRect(-2, -2, 4, 4);
+		ctx.restore();
+	}
+
+
+		function e(x,y) {
+		ctx.save();
+		ctx.translate(x, y);
+		dot('red');
+		map[x+'|'+y] = true;
+		ctx.restore();
+	}
+	
+	var X = 220;
+	var Y = 220;
+	
+	function init() {
+		ctx = document.getElementById("canvas").getContext("2d");
+		//draw();
+		e(X,Y);
+		e(X+5,Y);
+		e(X+5,Y-5);
+		e(X+5,Y+5);
+		e(X+10,Y+10);
+		e(X+10,Y+15);
+		e(X+15,Y+15);
+		e(X+20,Y+15);
+		e(X+20,Y+20);
+		e(X+25,Y+20);
+		e(X+25,Y+25);
+		e(X+30,Y+20);
+
+		draw();
+	}
+
+	function draw() {
+	    if (d==0) y = y-5;
+		else if (d==1) x = x+5;
+		else if (d==2) y = y+5;
+		else if (d==3) x = x-5;
+		
+		ctx.save();
+		ctx.translate(x, y);
+		
+		if (map[x+'|'+y]) {
+		 	d = (d + 3) % 4;
+			dot('white');
+			map[x+'|'+y] = false;
+		} else {
+			d = (d + 1) % 4;
+			dot('black');
+			map[x+'|'+y] = true;
+		}
+		ctx.restore();
+		setTimeout(draw, T);
+		console.log(T)
+	}
+	window.onkeydown = function(e) {
+		if (e.keyCode == 32) T /= 2;
+		else T *= 2;
+	}
+	</script>
+</head>
+<body onload="init()">
+<canvas id="canvas" width="700" height="400"></canvas>
+</body>
+</html>

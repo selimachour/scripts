@@ -1,0 +1,252 @@
+
+<style>
+	
+#sudoku {
+	position: relative;
+	width: 900px;
+	height: 900px;
+}
+#sudoku > div {
+    position: absolute;
+    border: 1px solid black;
+    height: 51px;
+    width: 51px;
+    text-align: center;
+    line-height: 14px;
+    padding: 2px 6px;
+    box-sizing: border-box;
+    color: #666;
+}
+#sudoku div.y {
+    line-height: 45px;
+    font-size: 32px;
+    color: red;
+}
+
+</style>
+
+<button onclick="S.solve2();">Alone Square</button>
+<button onclick="S.solve3();">One value</button>
+<button onclick="S.solve4();">Alone Vertival</button>
+<button onclick="S.solve5();">Alone Horizontal</button>
+<button onclick="S.solve();">Solve!!!</button>
+
+<div id="sudoku">
+	
+</div>
+
+<script>
+	
+
+var S = {
+	divs: {},
+	cells: {},
+	nums: {},
+	set: function(i, j, v) {
+		S.cells[i.toString() + j.toString()] = v;
+		S.divs[i.toString() + j.toString()].innerText = v ? v : '';
+		S.divs[i.toString() + j.toString()].className = v ? 'y' : '';
+		if (v) S.nums[i.toString() + j.toString()] = '';
+	},
+	addNum: function(i, j, v) {
+		var p = S.nums[i.toString() + j.toString()].indexOf(v);
+		if (-1 == p)
+		{
+			S.nums[i.toString() + j.toString()].push(v);
+			S.divs[i.toString() + j.toString()].innerText = S.nums[i.toString() + j.toString()].join(' ');
+		}
+	},
+	removeNum: function(i, j, v) {
+		v = v * 1;
+		var p = S.nums[i.toString() + j.toString()].indexOf(v);
+		if (-1 != p)
+		{
+			S.nums[i.toString() + j.toString()].splice(p, 1);
+			S.divs[i.toString() + j.toString()].innerText = S.nums[i.toString() + j.toString()].join(' ');
+		}
+	},
+	defaultNum: function(i, j) {
+		S.nums[i.toString() + j.toString()] = [1,2,3,4,5,6,7,8,9];
+		S.divs[i.toString() + j.toString()].innerText = S.nums[i.toString() + j.toString()].join(' ');
+
+	},
+	get: function(i, j) {
+		return S.cells[i.toString() + j.toString()];
+	},
+	solve: function() {
+		for (var l=1;l<10;l++)
+		{
+			S.solve2();
+			S.solve3();
+			S.solve4();
+			S.solve5();
+		}
+	},
+	solve1: function() {
+		var t;
+		// vertical and horizontal removal
+		for (var i=0;i<9;i++)
+		{
+			for (var j=0;j<9;j++)
+			{
+				if (t = S.get(i,j))
+				{
+					for (var ii = 0; ii<9; ii++) S.removeNum(ii, j, t);
+					for (var jj = 0; jj<9; jj++) S.removeNum(i, jj, t);
+					// square
+					var iMin = Math.floor(i/3) * 3;
+					var jMin = Math.floor(j/3) * 3;
+					for (var ii = 0; ii < 3; ii++)
+						for (var jj = 0; jj < 3; jj++)
+							S.removeNum(iMin+ii, jMin+jj, t);
+				}
+			}	
+		}
+	},
+	solve2: function() {
+		var t;
+		// check if one alone in square
+		for (var I=0;I<3;I++)
+		{
+			for (var J=0;J<3;J++)
+			{
+				for (var looked = 1; looked<=9; looked++)
+				{
+					var lastFound = [];
+					var nbFound = 0;
+					for (var i=0;i<3;i++)
+					{
+						for (var j=0;j<3;j++)
+						{
+							var ii = 3*I + i;
+							var jj = 3*J + j;
+							t = S.nums[ii.toString() + jj.toString()].indexOf(looked);
+							if (-1 != t)
+							{
+								nbFound++;
+								lastFound = [ii,jj];
+							}
+						}
+					}
+					if (nbFound == 1)
+					{
+						S.set(lastFound[0], lastFound[1], looked);
+					}
+				}
+			}
+		}
+		S.solve1();
+	},
+	solve4: function() {
+		var t;
+
+		// check if one alone in vertical line
+		for (var i=0;i<9;i++)
+		{
+			for (var looked = 1; looked<=9; looked++)
+			{
+				var lastFound = [];
+				var nbFound = 0;
+				for (var j=0;j<9;j++)
+				{
+					t = S.nums[i.toString() + j.toString()].indexOf(looked);
+					if (-1 != t)
+					{
+						nbFound++;
+						lastFound = [i,j];
+					}
+				}
+				if (nbFound == 1)
+				{
+					S.set(lastFound[0], lastFound[1], looked);
+				}
+			}
+		}
+		S.solve1();
+	},
+	solve5: function() {
+		var t;
+
+		// check if one alone in horizontal line
+		for (var j=0;j<9;j++)
+		{
+			for (var looked = 1; looked<=9; looked++)
+			{
+				var lastFound = [];
+				var nbFound = 0;
+				for (var i=0;i<9;i++)
+				{
+					t = S.nums[i.toString() + j.toString()].indexOf(looked);
+					if (-1 != t)
+					{
+						nbFound++;
+						lastFound = [i,j];
+					}
+				}
+				if (nbFound == 1)
+				{
+					S.set(lastFound[0], lastFound[1], looked);
+				}
+			}
+		}
+		S.solve1();
+	},
+	solve3: function() {
+		for (var i=0;i<9;i++)
+			for (var j=0;j<9;j++)
+				if (S.nums[i.toString()+j.toString()].length == 1)
+				{
+					S.set(i,j, S.nums[i.toString()+j.toString()][0]);
+				}
+
+		S.solve1();
+	},
+	init: function(setup) {
+		var DIV = document.getElementById('sudoku');
+		for (var i=0;i<9;i++)
+		{
+			for (var j=0;j<9;j++)
+			{
+				var div = document.createElement('div');
+				div.className = 'cell';
+				div.style.left = i*50 + Math.floor(i/3) + 'px';
+				div.style.top  = j*50 + Math.floor(j/3) + 'px';
+				S.divs[i.toString() + j.toString()] = div;
+				DIV.appendChild(div);
+			}
+		}
+
+		for (var j=0;j<9;j++)
+			for (var i=0;i<9;i++)
+			{
+				S.set(i,j, null);
+			}
+		for (var i=0;i<9;i++)
+			for (var j=0;j<9;j++)
+				S.defaultNum(i,j);
+
+		var k=0;
+		for (var j=0;j<9;j++)
+			for (var i=0;i<9;i++)
+			{
+				var n = setup[k++];
+				if (n>0) S.set(i,j, n);
+			}
+		S.solve1();
+
+	}
+}
+
+
+//easy S.init("007005812680200439001340006010000524029074100000030078070000695930050080062000001");
+
+//S.init('009000407008400003000080290204610300015740000036520900000102000000060000040905008');
+
+//S.init('000000904340027005580060120000005000000700001010402000000508039600000040900340000') ;
+
+
+S.init('010040090060300010003000020090204301040008009300060002400690000008003000070020000');
+
+</script>
+
+

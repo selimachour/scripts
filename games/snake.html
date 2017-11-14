@@ -1,0 +1,141 @@
+<script>
+
+var length = 10;
+var snake;
+var cage;
+var direction = 1;
+var grow = 0;
+var map = {};
+var speed = 200;
+
+
+
+function init() {
+	document.body.onkeydown = keydown;
+	cage = document.getElementById('cage');
+	laydown();
+	advance();
+	setInterval( feed, 2000 ); 
+}
+
+function keydown(e) {
+	switch (e.keyCode) {
+		case 37: direction = 3; break;
+		case 39: direction = 1; break;
+		case 38: direction = 0; break;
+		case 40: direction = 2; break;
+		case 32: grow = true; 	break;
+	}
+}
+
+function advance( ) {
+	
+	x = parseInt(snake.style.left);
+	y = parseInt(snake.style.top);
+	
+	switch( direction ) {
+		case 0: y--; break;
+		case 1: x++; break;
+		case 2: y++; break;
+		case 3: x--; break;
+	}
+	
+	var g;
+	if ( g = get(x,y) ) {
+		switch( g.kind ) {
+			case 'snake': alert('that hungry ?'); break;
+			case 'apple':      grow =  1; speed--; set(x,y,false); cage.removeChild(g); break;
+			case 'strawberry': grow =  1; speed--; set(x,y,false); cage.removeChild(g); break;
+			case 'poison':     grow = 10;          set(x,y,false); cage.removeChild(g); break;
+		
+		}
+	}
+	
+	if ( grow ) {
+		var n = v(x, y, snake, snake.next);
+		snake = n;
+		grow--;
+	} else {
+		snake = snake.next;
+		set(snake.style.left, snake.style.top, false) 
+		snake.style.left = x + 'em';
+		snake.style.top  = y + 'em';
+		set(x,y, 'snake');
+	}
+
+	setTimeout( advance, speed );
+}
+
+function laydown() {
+	var x, root;
+	for( var i=0; i<length; i++ ) {
+		var current = v(i+1, 6, x);
+		if (!x) root = current;
+		x = current;
+	}	
+	current.next = root;
+	snake = current;
+}
+
+function v(x, y, prev, next) {
+	var v = document.createElement('div');
+	var vv = document.createElement('div');
+	vv.className = 'vv';
+	v.appendChild(vv);
+	v.className = 'v';
+	v.kind = 'snake';
+	v.style.left = x + 'em';
+	v.style.top  = y + 'em';
+	set(x, y, v);
+	if (prev) prev.next = v;
+	if (next) v.next = next;
+	cage.appendChild(v);
+	return v;
+}
+
+function food(x, y, kind) {
+	var v = document.createElement('div');
+	var vv = document.createElement('div');
+	vv.className = 'ff';
+	v.kind = kind;
+	v.appendChild(vv);
+	v.className = 'f ' + kind;
+	v.style.left = x + 'em';
+	v.style.top  = y + 'em';
+	set(x, y, v);
+	cage.appendChild(v);
+	return v;
+}
+
+function set(x,y,v) {
+	x = parseInt(x);
+	y = parseInt(y);
+	map[x+'|'+y] = v;
+}
+function get(x,y) {
+	return map[x+'|'+y];
+}
+
+function feed() {
+	var x,y;
+	var fs = [ 'apple', 'strawberry', 'poison' ];
+	while( true ) {
+		x = Math.floor(Math.random() * 60);
+		y = Math.floor(Math.random() * 15);
+		if ( !get(x,y) ) {
+			food( x, y, fs[Math.floor(Math.random() * 3)]);
+			break;
+		}
+	};
+}
+
+</script>
+<style>
+#cage { position: relative; }
+.v, .f  { width: 1em; height: 1em; position: absolute;  }
+.vv { position: absolute; top: 1px; right: 1px; bottom: 1px; left: 1px; background-color: blue; }
+.ff { position: absolute; top: 3px; right: 3px; bottom: 3px; left: 3px; background-color: lightgreen; }
+</style>
+<body onload="init()">
+<div id="cage"></div>
+</body>
