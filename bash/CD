@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# CD sound  => cd /home/www-data/ikaa/sound-attitude.com
+#
+# CD <path> => cd to the first domain matching path
+#
+
+SERVER_BASE=/var/www/sites
+
+dir=`find $SERVER_BASE/*/* -maxdepth 0 -type d | grep "/$1" -m1`
+
+if [ ! -z "$dir" ]; then
+    cd "$dir"
+else
+    dir=`find $SERVER_BASE/*/* -maxdepth 0 -type d | grep $1 -m1`
+    if [ ! -z "$dir" ]; then
+        cd "$dir"
+    fi
+fi
