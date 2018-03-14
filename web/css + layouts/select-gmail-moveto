@@ -1,0 +1,118 @@
+
+<style>
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+	
+.list-filter {
+	font-family: arial, sans-serif;
+	font-size: 13px;
+	width: 300px;
+	height: 280px;
+	border: 1px solid #bbb;
+	box-shadow: 0 3px 3px #444;
+	color: #333;
+	background-color: #fff;
+}
+
+.list-filter header {
+	padding: 10px;
+}
+.list-filter header form {
+	border: 1px solid #ccc;
+	border-top-color: #666;
+	margin-top: 6px;
+	padding: 2px;
+}
+.list-filter header form input {
+	border: 0;
+	outline: 0;
+	width: 100%;
+}
+.list-filter ul {
+	list-style-type: none;
+	max-height: 160px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+.list-filter ul li {
+    user-select: none;
+    cursor: pointer;
+	padding: 2px 30px 1px;
+    white-space: nowrap;
+}
+.list-filter ul li:hover {
+	background-color: #eee;
+
+}
+.list-filter .sep {
+	border-top: 1px solid #ebebeb;
+    margin-top: 5px;
+    margin-bottom: 6px;
+    user-select: none;
+}
+
+</style>
+
+
+<div class="list-filter">
+	<header>
+		Move to:
+		<form>
+			<input type="text">
+		</form>
+	</header>
+	<ul>
+		<li role="menu-item" aria-hidden="false">
+			<div>[Imap]/Sent</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies/Bikes</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies/Ong</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies/GIS</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies/GIS/OSM</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>[Imap]/Sent</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>[Imap]/Sent</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies/Bikes</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies/Ong</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies/GIS</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Hobbies/GIS/OSM</div>
+		</li>
+	</ul>
+	<div class="sep" aria-disabled="true" role="separator"></div>
+	<ul>
+		<li role="menu-item" aria-hidden="false">
+			<div>Inbox</div>
+		</li>
+		<li role="menu-item" aria-hidden="false">
+			<div>Sent</div>
+		</li>
+	</ul>
+</div>

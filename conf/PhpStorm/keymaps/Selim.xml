@@ -6,7 +6,9 @@
   <action id="CloseContent">
     <keyboard-shortcut first-keystroke="ctrl w" />
   </action>
+  <action id="CompareTwoFiles" />
   <action id="Console.TableResult.CompareCells" />
+  <action id="Diff.ShowDiff" />
   <action id="Diff.ShowSettingsPopup" />
   <action id="EditorAddOrRemoveCaret" />
   <action id="EditorAddRectangularSelectionOnMouseDrag" />
@@ -29,13 +31,16 @@
   <action id="EditorScrollDown" />
   <action id="EditorScrollToCenter" />
   <action id="EditorScrollUp" />
-  <action id="EditorSelectWord" />
+  <action id="EditorSelectWord">
+    <keyboard-shortcut first-keystroke="ctrl d" />
+  </action>
   <action id="EditorSplitLine" />
   <action id="EditorStartNewLine" />
   <action id="EditorStartNewLineBefore" />
   <action id="EditorToggleCase" />
   <action id="EditorToggleColumnMode" />
   <action id="EditorUnSelectWord" />
+  <action id="FileChooser.GotoDesktop" />
   <action id="FileChooser.TogglePathShowing" />
   <action id="GotoCustomRegion" />
   <action id="GotoDeclaration">
@@ -55,5 +60,7 @@
     <keyboard-shortcut first-keystroke="shift ctrl t" />
   </action>
   <action id="RunDashboard.ShowConfigurations" />
+  <action id="SendEOF" />
   <action id="Uml.ShowDiff" />
+  <action id="openAssertEqualsDiff" />
 </keymap>
