@@ -1,0 +1,96 @@
+<html>
+<head>
+	
+<style>
+
+html, body, nav, ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+	
+html, body {
+	height: 100%;
+	background: #1b1b33;
+	color: #bbb;
+	font-family: sans-serif;
+}
+
+nav {
+    width: 60%;
+    margin: 50px auto;
+}
+
+ul {
+	list-style: none;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.62);
+}
+
+li {
+	display: inline-block;
+	font-size: 16px;
+	padding: 3px;
+	margin-right: 10px;
+	position: relative;
+}
+li.active > span {
+	color: #fff;
+}
+
+li > ul {
+	position: absolute;
+	top: 45px;
+	left: -16px;
+}
+li > ul:before {
+	position: absolute;
+	content: " ";
+	display: block;
+	width: 20px;
+	height: 7px;
+	background-color: inherit;
+	bottom: 100%;
+	left: 40px;
+}
+
+
+
+li li {
+	display: block;
+	white-space: nowrap;
+	padding: 8px 3px;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<nav id="main-menu">
+	
+	<ul>
+		<li class="active">
+			<span>Contacts</span>
+			<ul>
+				<li><span>New contact <span class="key">Ctrl-N</span></span></li>
+				<li><span>Search contacts</span></li>
+			</ul>
+		</li>
+		<li><span>Plants</span></li>
+		<li><span>Web</span></li>
+	</ul>
+
+
+</nav>
+
+
+
+
+</body>
+
+
+</html>
